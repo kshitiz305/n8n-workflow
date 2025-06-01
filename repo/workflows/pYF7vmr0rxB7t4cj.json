@@ -1,0 +1,192 @@
+{
+  "createdAt": "2025-06-01T13:22:11.579Z",
+  "updatedAt": "2025-06-01T13:22:11.579Z",
+  "id": "pYF7vmr0rxB7t4cj",
+  "name": "My workflow 3",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -160,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "3e381d9f-4534-422e-8a01-080d7d57d3b2"
+    },
+    {
+      "parameters": {
+        "command": "npx n8n export:workflow --backup --output repo/workflows/"
+      },
+      "name": "Export Workflows",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        40,
+        60
+      ],
+      "typeVersion": 1,
+      "id": "8f2f6999-2f8b-4ec4-9fc8-8ede5be5175d"
+    },
+    {
+      "parameters": {
+        "command": "npx n8n export:credentials --backup --output repo/credentials/"
+      },
+      "name": "Export Credentials",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        200,
+        60
+      ],
+      "typeVersion": 1,
+      "id": "93c964c9-c782-477d-a3dd-23dea9eba49a"
+    },
+    {
+      "parameters": {
+        "command": "git -C repo add ."
+      },
+      "name": "git add",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        340,
+        60
+      ],
+      "typeVersion": 1,
+      "id": "a63bde29-6cec-48ed-910f-dbad743dd3e0"
+    },
+    {
+      "parameters": {
+        "command": "=git -C repo commit -m \"Auto backup ({{ new Date().toISOString() }})\""
+      },
+      "name": "git commit",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        500,
+        60
+      ],
+      "typeVersion": 1,
+      "id": "b745be6c-41b9-4229-a063-a4c5bd5dc5bd"
+    },
+    {
+      "parameters": {
+        "command": "git -C repo push"
+      },
+      "name": "git push",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [
+        640,
+        60
+      ],
+      "typeVersion": 1,
+      "id": "c83a199a-2400-4358-869c-b73cb3428c9b"
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 0
+            },
+            {
+              "hour": 12
+            },
+            {
+              "hour": 6
+            },
+            {
+              "hour": 18
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        -160,
+        -40
+      ],
+      "typeVersion": 1,
+      "id": "335749c7-3534-4001-b930-1f99f7c1c295"
+    }
+  ],
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Export Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "git add": {
+      "main": [
+        [
+          {
+            "node": "git commit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "git commit": {
+      "main": [
+        [
+          {
+            "node": "git push",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Export Workflows": {
+      "main": [
+        [
+          {
+            "node": "Export Credentials",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Export Credentials": {
+      "main": [
+        [
+          {
+            "node": "git add",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Export Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a66f27af-54d4-461a-93ac-a149dbe45b67",
+  "triggerCount": 0,
+  "tags": []
+}

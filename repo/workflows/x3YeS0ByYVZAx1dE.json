@@ -1,0 +1,18 @@
+{
+  "createdAt": "2025-05-10T10:30:05.822Z",
+  "updatedAt": "2025-05-10T10:30:05.822Z",
+  "id": "x3YeS0ByYVZAx1dE",
+  "name": "webhook test",
+  "active": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "322fb7f2-166e-45a8-8f86-66396af709d2",
+  "triggerCount": 0,
+  "tags": []
+}

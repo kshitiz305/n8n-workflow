@@ -1,0 +1,360 @@
+{
+  "createdAt": "2025-05-09T14:57:34.455Z",
+  "updatedAt": "2025-05-13T12:59:26.034Z",
+  "id": "tBGhaIPuzIDSND4Z",
+  "name": "Resume Generator",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        320
+      ],
+      "id": "aa7da25d-1b04-430c-be7b-c59c3bc0d94d"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-resume",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "name": "Receive Job Description1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        40,
+        240
+      ],
+      "webhookId": "your-actual-webhook-id",
+      "id": "f5ffdc87-3043-44b8-9649-dd6759ade31c"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "resume",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Format Response1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        540,
+        240
+      ],
+      "id": "56393499-d362-4a68-98b0-709a67dff2f8"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create the resume using the job desctipnion as follows: {{ $json.body.text }}. Stright away give the resume without talking about anything else.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "you are a resume generator. create a highly ATS-friendly resume, tailored to a specific job description, using my existing resume as the primary source of my experience and qualifications. The final output should be the text content for a new resume, which I will then save as a PDF.\nObjective: To generate resume content that effectively passes through Applicant Tracking Systems (ATS) by incorporating keywords and relevant information from the provided job description, while accurately reflecting my skills and experience from my current resume.\nPlease follow these guidelines strictly:\nAnalyze Inputs:\nJob Description (I will provide this): Extract key responsibilities, required skills (hard and soft), qualifications, experience level, industry-specific jargon, and action verbs. Pay close attention to recurring terms and phrases.\nMy Current Resume (I will provide this): This is the source for my work history, accomplishments, skills, and education. Identify transferable skills and experiences that match the job description.\nATS Optimization & Tailoring - The Core Task:\nKeyword Integration: Strategically weave exact keywords and key phrases from the Job Description into the new resume content, particularly in the Professional Summary/Objective, Skills section, and Experience descriptions. Ensure natural integration, not just \"keyword stuffing.\" Use both full phrases and individual keywords.\nRelevance First: Prioritize and expand on experiences, achievements, and skills from my current resume that directly align with the Job Description. De-emphasize or omit less relevant details from my current resume for this specific application.\nQuantifiable Achievements: Where possible, rephrase my existing accomplishments (or suggest areas where I can add them) using the STAR method (Situation, Task, Action, Result) and quantify them with metrics, ensuring they align with what the Job Description values (e.g., \"Increased X by Y%,\" \"Managed Z projects,\" \"Reduced costs by Q\").\nAction Verbs: Start bullet points in the Experience section with strong action verbs that are relevant to the role and ideally found in the job description (e.g., \"Managed,\" \"Developed,\" \"Implemented,\" \"Led,\" \"Analyzed\").\nProfessional Summary/Objective: Craft a concise (3-4 lines) Professional Summary at the top, specifically tailored to the target role. This summary should immediately highlight my key qualifications and experience as they relate directly to the top 2-3 requirements in the job description, using its language.\nSkills Section: Create a dedicated \"Skills\" section. Categorize skills if appropriate (e.g., \"Technical Skills,\" \"Software,\" \"Languages\"). List skills explicitly mentioned in the job description that I possess, as well as closely related ones from my current resume.\nATS-Friendly Formatting (for the text output you provide):\nStandard Sections: Use clear, standard section headings (e.g., \"Professional Summary,\" \"Skills,\" \"Professional Experience,\" \"Education,\" \"Certifications\" (if applicable)).\nSimple Structure: The text you provide should be easily convertible to a single-column layout. Avoid any formatting that relies on tables, columns, text boxes, images, or graphics.\nBullet Points: Use standard bullet points (e.g., a simple hyphen - or asterisk *) for achievements and responsibilities.\nDates: Use a consistent and clear format for dates (e.g., MM/YYYY – MM/YYYY or Month YYYY – Month YYYY). For current roles, use \"Month YYYY – Present.\"\nContact Information: Ensure my contact information (Full Name, Phone Number, Email Address, LinkedIn Profile URL (optional), City, State (optional)) is clearly presented at the very top.\nFont & Spacing: Assume standard fonts like Arial, Calibri, or Times New Roman will be used, with a font size of 10-12pt for body text and slightly larger for headings. Suggest appropriate spacing for readability.\nNo Headers or Footers: Do not include content that would typically go into a document header or footer, as ATS can struggle with these.\nOutput:\nProvide the complete text content for the new, tailored resume, clearly demarcated by sections. I will handle the conversion to a clean, text-based PDF.\nProcess:\nI will provide you with the Job Description.\nI will then provide you with My Current Resume.\nYou will then generate the ATS-optimized resume content based on the instructions above.\nPlease confirm you understand these instructions before I provide the documents. Let me know if you have any clarifying questions.Make the summary according to the job descriptions.Use only the skills that are relevant to the job description. Don't leave any placeholder in the resumem \n\nMy Current resume looks like :\n\nKshitiz Gupta Software Developer\nkshitiz305@live.com +918882961517 linkedin.com/in/kshitiz305/ https://github.com/kshitiz305\nSummary\nHighly motivated Backend Engineer with 5+ years of experience in designing, developing, and maintaining scalable web\napplications using Python and Django. Proven ability to collaborate with cross-functional teams, optimize backend code\nfor performance, and ensure robust security measures. Experienced in developing RESTful APIs and contributing to all\nphases of the software development lifecycle. Eager to leverage expertise in a challenging role at Xogene, contributing to\ninnovative technology solutions\nSkills\nPython SQL( Postgres, MySQL, SQL Server ) FLASK / DASH / FAST API MONGODB Restful API\nGIT (GitLab) / Jenkins REDSHIFT AWS - Amazon Web Services (EC2, RDS, S3,Lambda)\nSELENIUM/BEAUTIFULSOUP SCRAPPING PYSPARK / PANDAS / NUMPY / JSON , NLP\nCI/CD (Continuous Integration) ORM (SQLALCHEMY) DevOps , Concfluence , JIRA\nMachine learning , Data Science Dockers SimPy JIRA ECS Agile Airflow\nGCP (BigQuery, Cloud Storage) Django\nProfessional Experience\nConsultant (Developer)\nDeveloper\nVersatile freelance Python developer delivering tailored solutions for diverse clients. Proven\nexpertise in crafting efficient and scalable applications, ensuring client satisfaction through\ntimely and innovative project delivery.\n07/2022 – present\nDELOITTE USI\nANALYST\n• Developed and optimized Python-based APIs, ensuring high performance and reliability for\ncritical business applications.\n03/2021 – 07/2022\n• Contributed to the development of backend functions, including table migration, ensuring\ndata integrity and efficient data management.\nFLIXSTOCK\nBACKEND DEVELOPER\n• Automated report generation for editors, reducing the time spent on manual reporting by\n50%.\n07/2020 – 03/2021\n• Reduced TAT by 92%, resulting in a 50% increase in productivity by removing bugs and\ninstability in pipeline using best practices of industry.\n• Leading a team to build strategies and achieve planned goals.\nInternships\nZIGRAM DATA PVT L TD\n(SOFTWARE DEVELOPER) CONSUL TANT / INTERN\n08/2019 – 04/2020\nProjects\nOpen Source Contributor\nContributing to multiple Industry Tools (Camlot - dev, Pandas - dev, github, Mindsdbs, DVC,etc) - Project contibutions can\nbe found - https://github.com/kshitiz305\nCORESTACK DASHBOARD\nCoreStack, an AI-powered multi-cloud governance product, empowers enterprises to unleash the power of cloud on their\nterms by helping them rapidly achieve continuous and cloud governance at scale with microservices. CoreStack enables\nenterprises to realize outcomes across FinOps, SecOps and CloudOps such as 40% decrease in cloud costs and 50% -\nNumpy , Pandas , flask.\nAwards\nSpot Award\nDELOITTE\n05/05/2022\nPython for Data Science\nIBM\nSoftware Engineering for Data Scientists in Python\nDataCamp\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        200,
+        260
+      ],
+      "id": "0adf48e6-ea8e-4a15-90b2-8bc176eb50b8",
+      "name": "AI Agent",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        200,
+        440
+      ],
+      "id": "cfe979a7-442b-4fa6-bafb-fafeacc9c50b",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "lxY1yy9VjJFvamwS",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Input data will contain the JSON from the webhook\nconst resumeData = $input.all().json;\n\n// Load required libraries\nconst PDFDocument = require('pdfkit');\n\n// Function to create PDF from resume data\nfunction createResumePDF(resumeText) {\n  // Create a PDF document buffer\n  const pdfBuffer = [];\n  const doc = new PDFDocument({ margin: 50 });\n  \n  // Pipe the PDF into a buffer\n  doc.on('data', pdfBuffer.push.bind(pdfBuffer));\n  \n  // Split content by sections (double newlines)\n  const sections = resumeText.split('\\n\\n');\n  \n  // Parse header (name and contact info)\n  const headerLines = sections[0].split('\\n');\n  const name = headerLines[0];\n  const contactInfo = headerLines[1];\n  \n  // Add the name as a title\n  doc.fontSize(18).font('Helvetica-Bold').text(name, { align: 'center' });\n  doc.moveDown(0.5);\n  \n  // Add contact info\n  doc.fontSize(10).font('Helvetica').text(contactInfo, { align: 'center' });\n  doc.moveDown(1);\n  \n  // Process remaining sections\n  for (let i = 1; i < sections.length; i++) {\n    const section = sections[i];\n    \n    // Check if this is a section header (starts with **)\n    if (section.startsWith('**')) {\n      // Extract section name\n      const sectionTitle = section.split('\\n')[0].replace(/\\*\\*/g, '');\n      \n      doc.fontSize(14).font('Helvetica-Bold').text(sectionTitle);\n      doc.moveDown(0.5);\n      \n      // Extract and format section content (remove the title line)\n      const contentLines = section.split('\\n').slice(1);\n      \n      // Process bullet points and regular text\n      contentLines.forEach(line => {\n        if (line.trim().startsWith('*')) {\n          // This is a bullet point\n          const bulletText = line.trim().substring(1).trim();\n          doc.fontSize(10).font('Helvetica')\n             .text(bulletText, { indent: 20, bulletPoint: '•' });\n        } else if (line.trim()) {\n          // Regular text\n          doc.fontSize(10).font('Helvetica').text(line.trim());\n        }\n        \n        // Small spacing between lines if needed\n        if (line.trim()) doc.moveDown(0.2);\n      });\n    } else {\n      // Regular paragraph\n      doc.fontSize(10).font('Helvetica').text(section);\n    }\n    \n    doc.moveDown(1);\n  }\n  \n  // Finalize the PDF\n  doc.end();\n  \n  return Buffer.concat(pdfBuffer).toString('base64');\n}\n\n// Process the data and generate PDF\nconst pdfBase64 = createResumePDF(resumeData);\n\n// Return the PDF for the next node\nreturn {\n  json: {\n    pdfData: pdfBase64,\n    contentType: 'application/pdf',\n    filename: 'resume.pdf'\n  }\n};"
+      },
+      "name": "Generate PDF",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        800,
+        800
+      ],
+      "id": "9fa0bd64-74fb-48bd-a41c-3bad89229276"
+    },
+    {
+      "parameters": {
+        "mode": "jsonToBinary",
+        "destinationKey": "pdf",
+        "options": {
+          "encoding": "base64",
+          "fileName": "resume.pdf",
+          "mimeType": "application/pdf"
+        }
+      },
+      "name": "Move Binary Data",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        980,
+        540
+      ],
+      "id": "4711214d-9acd-4188-8c9e-22f9517e87e9"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        920
+      ],
+      "id": "e3f40935-8139-426f-b4de-b62e3b996877"
+    },
+    {
+      "parameters": {
+        "mode": "jsonToBinary",
+        "destinationKey": "doc",
+        "options": {
+          "encoding": "base64",
+          "fileName": "resume.doc",
+          "mimeType": "application/text"
+        }
+      },
+      "name": "Move Binary Data1",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ],
+      "id": "2296e6dd-e18d-40f0-8f19-6fd147c8bf50"
+    },
+    {
+      "parameters": {},
+      "name": "Generate PDF1",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        580
+      ],
+      "id": "40cb91ef-f777-4d11-adfe-681551bc264f"
+    },
+    {
+      "parameters": {
+        "mode": "jsonToBinary",
+        "destinationKey": "pdf",
+        "options": {
+          "encoding": "base64",
+          "fileName": "resume.pdf",
+          "mimeType": "application/pdf"
+        }
+      },
+      "name": "Move Binary Data2",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        580
+      ],
+      "id": "3bcfc4b6-3b85-41ea-b5bd-65b2359155fc"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Respond to Webhook2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        580
+      ],
+      "id": "695bc343-c926-4cae-9a79-d42e481895dd"
+    },
+    {
+      "parameters": {
+        "content": "the original idea given by the llm"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        380
+      ],
+      "id": "09a836be-eb13-47ec-93cb-1ac5c032e106",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "Format Response1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive Job Description1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Format Response1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate PDF": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data1": {
+      "main": [
+        []
+      ]
+    },
+    "Generate PDF1": {
+      "main": [
+        [
+          {
+            "node": "Move Binary Data2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move Binary Data2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Receive Job Description1": [
+      {
+        "json": {
+          "headers": {
+            "host": "voicemybusiness.me",
+            "x-real-ip": "49.36.186.189",
+            "x-forwarded-for": "49.36.186.189",
+            "x-forwarded-proto": "https",
+            "connection": "Upgrade",
+            "content-length": "1446",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+            "content-type": "application/json",
+            "accept": "*/*",
+            "origin": "chrome-extension://jggpfdfhbmllejnganbjdpdiiejmlngn",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+            "priority": "u=1, i"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "text": " At least 5 years experience with our core stack: AWS, Linux, Python\n\n– Proven ability to design and maintain resilient, scalable systems\n\n– Willingness to handle technical emergencies when needed\n\n– A long-term mindset — ready to commit for at least 5 years\n\n– Ability to lead a small technical team, answering hard questions and making others better\n\n– Experience with project management and people leadership\n\n– At least 2 hours of daily overlap with GMT+3 and GMT-5\n\n– Fluent in English, both written and spoken\n\n– Experience with system design and architecture\n\n– Familiarity with AI trends and capabilities\n\n– Knowledge or interest in the domain name system\n\n– Passion about fighting phishing and online frauds\n\n– Strong hiring instincts and ability to grow a team\n\nWhat We Offer:\n– A strategic leadership role in a profitable and fast-evolving company\n\n– High autonomy and influence over technical direction\n\n– Flexible remote work with async-first communication\n\n– Stock options and variable compensation based on experience and cultural fit\n\n– A chance to work on meaningful problems for clients who rely on our insights every day\n\nIf you’re passionate about domains, cyber security, and building high-performing teams (and you’re excited by the idea of leading a core tech function in a small but impactful company) we want to hear from you.\n"
+          },
+          "webhookUrl": "https://voicemybusiness.me/webhook/generate-resume",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "f39f1e7c-55ee-43a8-97d6-4f2488e9f274",
+  "triggerCount": 1,
+  "tags": []
+}

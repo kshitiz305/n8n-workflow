@@ -1,0 +1,553 @@
+{
+  "createdAt": "2025-05-03T05:00:33.340Z",
+  "updatedAt": "2025-05-11T10:21:41.738Z",
+  "id": "ERyAMJ3CwK8V3k2u",
+  "name": "Doctor Prescription",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        -20
+      ],
+      "id": "57ab6468-a309-476c-a357-a5342c94f002",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "{{appointment_id}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Appointment Id'] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{patient_name}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Patient\\'s Name'] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{doctor_name}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Doctor Name'] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{patient_number}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Phone Number'].toString() }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{age}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Patient\\'s Age'].toString() }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{gender}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json.Gender }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{appointment_time}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Appointment Date'] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{chief complaint}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Presenting Symptoms & Complaints'] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{diagnose}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Assessment & Diagnosis'] }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "{{advice}}",
+              "replaceText": "={{ $('IF (Missing Prescription Link)1').item.json['Management Plan (Rx, Labs/Diagnostics, and Referral)'] }}"
+            }
+          ]
+        }
+      },
+      "name": "Replace Document Placeholders",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2680,
+        -120
+      ],
+      "id": "4b79083f-2282-423c-893b-6e7ceeb5a6f1",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "notesInFlow": false,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "f4mZBzlRh3u4CoH7",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4",
+          "mode": "list",
+          "cachedResultName": "Appointment Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1816938999,
+          "mode": "list",
+          "cachedResultName": "Form responses 3",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4/edit#gid=1816938999"
+        },
+        "columnToMatchOn": "Appointment Id",
+        "valueToMatchOn": "={{ $('Google Sheets1').item.json['Appointment Id'] }}",
+        "fieldsUi": {
+          "values": [
+            {
+              "column": "priscription_link",
+              "fieldValue": "={{ $('Google Drive2').item.json.webViewLink }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Update Spreadsheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        3780,
+        -120
+      ],
+      "id": "495d2e4e-da81-45a1-ad8c-88f83f6a89a5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n1mJzLfz9loDmBOy",
+          "name": "OAuth Account kshitiz305280@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4",
+          "mode": "list",
+          "cachedResultName": "Appointment Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1816938999,
+          "mode": "list",
+          "cachedResultName": "Form responses 3",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4/edit#gid=1816938999"
+        },
+        "options": {}
+      },
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1800,
+        -120
+      ],
+      "id": "b815573c-f572-4cc9-80f0-55703a812400",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n1mJzLfz9loDmBOy",
+          "name": "OAuth Account kshitiz305280@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json[\"priscription_link\"] }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "name": "IF (Missing Prescription Link)1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        -120
+      ],
+      "id": "9d8d7704-28b8-4783-a645-565f67a73671"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Add row index to each item for update reference\nreturn items.map((item, index) => {\n  return {\n    json: {\n      ...item.json,\n      row: index,\n      spreadsheetId: item.binary?.spreadsheetId?.fileName || \"YOUR_SPREADSHEET_ID\"\n    }\n  };\n});"
+      },
+      "name": "Add Row Index1",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        -120
+      ],
+      "id": "77c1186d-2307-4e92-b5fa-74cc4f55700d"
+    },
+    {
+      "parameters": {
+        "content": "## Workflow Execution Complete\n\nSuccessfully processed appointment records without prescription links.\n\n- Created new Google Doc from template\n- Used Google Docs API to replace placeholders\n- Saved to 'Processed Appointments' folder\n- Updated spreadsheet with link to new document",
+        "height": 255.99999999999997,
+        "width": 400
+      },
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3160,
+        -480
+      ],
+      "id": "b7adaaae-d5f1-4458-8b90-abc80ed7182a"
+    },
+    {
+      "parameters": {
+        "content": "## Workflow Process\n\n1. Read appointments from Google Sheet\n2. Filter rows without prescription links\n3. Create a copy of the template document for each row\n4. Replace placeholders with appointment data using Google Docs API\n5. Move document to output folder\n6. Update original spreadsheet with document link",
+        "height": 255.99999999999997,
+        "width": 400
+      },
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        -480
+      ],
+      "id": "604085e8-48f0-4ec1-8ae3-c3156e1507cb"
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1hMCLp1kExNHR-A-Vw7dTbiT0dX-p7IZrsRLjOdc5040",
+          "mode": "list",
+          "cachedResultName": "AMB-1001-2523122",
+          "cachedResultUrl": "https://docs.google.com/document/d/1hMCLp1kExNHR-A-Vw7dTbiT0dX-p7IZrsRLjOdc5040/edit?usp=drivesdk"
+        },
+        "name": "={{ \"PRESCRIPTION_\"+ $json['Appointment Id']}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2460,
+        -120
+      ],
+      "id": "b466f7a7-b958-49f7-8cea-d0b50d55ff60",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pOtcm7bA642xCdGc",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.documentId }}",
+          "mode": "id"
+        },
+        "options": {
+          "binaryPropertyName": "data",
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2900,
+        -120
+      ],
+      "id": "bfae2642-3b50-49d0-97a3-3227df40dd1f",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pOtcm7bA642xCdGc",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Google Drive').item.json.name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1TQE1EctUZBiMD4J12ts156WqfVCk3ZmV",
+          "mode": "list",
+          "cachedResultName": "N8N",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1TQE1EctUZBiMD4J12ts156WqfVCk3ZmV"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3120,
+        -120
+      ],
+      "id": "5d0969c0-cbb4-443d-b501-b392868cabc2",
+      "name": "Google Drive2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pOtcm7bA642xCdGc",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "permissionsUi": {
+          "permissionsValues": {
+            "role": "reader",
+            "type": "anyone"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3560,
+        -120
+      ],
+      "id": "47cd84ba-09c0-4e01-af4c-f9fa061bcf5b",
+      "name": "Google Drive3",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pOtcm7bA642xCdGc",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds",
+              "secondsInterval": 5
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        1580,
+        -220
+      ],
+      "id": "c1af33c5-9edd-4dfe-bbc5-754ddd412b2a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive1').item.json.documentId }}",
+          "mode": "id"
+        },
+        "options": {
+          "deletePermanently": false
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3340,
+        -120
+      ],
+      "id": "d748c0a3-90ec-45b9-8bb9-a612810d6098",
+      "name": "Google Drive4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pOtcm7bA642xCdGc",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Document Placeholders": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Add Row Index1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF (Missing Prescription Link)1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Row Index1": {
+      "main": [
+        [
+          {
+            "node": "IF (Missing Prescription Link)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Replace Document Placeholders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "Google Drive4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive3": {
+      "main": [
+        [
+          {
+            "node": "Update Spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive4": {
+      "main": [
+        [
+          {
+            "node": "Google Drive3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Spreadsheet": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateId": "3145",
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "2a16164f-b48f-4bdc-a6d3-e63493b1ed41",
+  "triggerCount": 1,
+  "tags": []
+}

@@ -1,0 +1,559 @@
+{
+  "createdAt": "2025-05-11T06:29:23.212Z",
+  "updatedAt": "2025-05-11T06:50:57.233Z",
+  "id": "STPS1iNzacB4T6c2",
+  "name": "Whatsapp Conversation Optimized Query",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "this needs to be used only when all the data related to the patient is available along with the doctor they need a appointment from.",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4",
+          "mode": "list",
+          "cachedResultName": "Appointment Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15dOz4nD1iDO26zU5ZYnP_9PqBSBUqEzDTcsI_YQnTX4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "patient_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('patient_name', `This is the name of the patient to be entered after asking.`, 'string') }}",
+            "age": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('age', `This is the age of the patient to be entered after asking.`, 'string') }}",
+            "gender": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('gender', `keep the format as M for male and F for female.`, 'string') }}",
+            "doctor_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('doctor_name', `In case the patient opts in for an appointment this needs to be filled.`, 'string') }}",
+            "time": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('time', `The time at which the appointment is confirmed`, 'string') }}",
+            "patient_number": "={{ $('WhatsApp Trigger').item.json.metadata.display_phone_number }}"
+          },
+          "matchingColumns": [
+            "patient_number"
+          ],
+          "schema": [
+            {
+              "id": "appointment_id",
+              "displayName": "appointment_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "patient_number",
+              "displayName": "patient_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "patient_name",
+              "displayName": "patient_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "age",
+              "displayName": "age",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "gender",
+              "displayName": "gender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "doctor_name",
+              "displayName": "doctor_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "appointment_link",
+              "displayName": "appointment_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "form_link",
+              "displayName": "form_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        3220,
+        1900
+      ],
+      "id": "3b7aeb39-50f8-46f3-97d0-b77287f68b4e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n1mJzLfz9loDmBOy",
+          "name": "OAuth Account kshitiz305280@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "This will only be used to find the doctors availability. This tool takes input the type of doctor along with the time of appointment and it returns Doctor Name : Name of doctor\nType: type that was the input\nCall Link: Link of the call to b e scheduled\nAvailability Timings: Time available \ndoctor_email: email address used to book calendar invite\nif doctor available else if there is an error it should return that doctor is not available.Time needs to be converted to  ISO i.e. format YYYY-MM-DDTHH:mm:ss.sss",
+        "workflowId": {
+          "__rl": true,
+          "value": "M0SkIJsQzuCrQsYK",
+          "mode": "list",
+          "cachedResultName": "Doctor selection"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', `This is the doctor type selected by the user`, 'string') }}",
+            "time": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('time', `This is the time that is provided by the user to check for the availablity.This needs to be provided in ISO i.e. format YYYY-MM-DDTHH:mm:ss.sss`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        3340,
+        1900
+      ],
+      "id": "1a8f1cfb-10c0-49ac-a9d1-3e8dfeb43289",
+      "name": "Doctor name from doctor type"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{$json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "=You are a specialized CHATBOT. Your primary functions are to provide preliminary medical guidance and facilitate appointment setting.\nToday's date is: {{$now}}\nCore Directives (Apply Throughout):\nDisclaimer (Once at Start): Your VERY FIRST message to the user must be a disclaimer: \"Please remember, I am an AI assistant. The information provided is for general guidance only and cannot substitute professional medical advice. Always consult a qualified doctor for diagnosis and treatment.\" Do NOT repeat this disclaimer.\nNo AI Self-Identification: After the initial disclaimer, do NOT identify yourself as an AI, chatbot, or language model. Focus on the task.\nGuidance & Redirection: Provide general advice related to user-described symptoms and then guide them towards consulting a specialist.\nBackend Confidentiality: Do not mention or allude to backend technologies, Google Sheets, or specific tool names (like \"Doctor name from doctor type\" tool) to the user.\nData Persistence: Use information already provided by the user (name, age, etc.) without re-asking, unless clarification is genuinely needed.\nHuman-Readable Output: All responses to the user must be in natural, human-readable language. Never output JSON or technical formats to the user.\nGoogle Sheet Data: All data destined for Google Sheets must be in English, regardless of the interaction language with the user. Gender should be stored as 'M' for male and 'F' for female.\nConversational Flow & Logic:\nPhase 1: Setup & Initial Information\nLanguage Selection (After Disclaimer):\nAI Asks: \"Welcome! Please select your preferred language: \\n1. Hindi \\n2. English\"\nAction: Adapt all subsequent interactions to the chosen language.\nAI Service Fee & Payment (After Language Selection):\nAI States: \"Thank you. Please note that this AI guidance service has a fee of Rs 20. To proceed, please complete the payment using this link: [8882@upi]. Let me know once you have completed the payment.\"\nAction: Wait for user confirmation of payment before proceeding.\nPatient Demographics (After Payment Confirmation):\nAI Asks: \"Great, let's get started. Could you please tell me the patient's name, age, and gender?\"\nData Handling:\nName can be first name or full name.\nStore gender as 'M' or 'F' (for backend/Google Sheets).\nAge Gate (Internal Check - Do NOT mention the age numbers to the user):\nIF age < 16 OR age > 85:\nAI Responds: \"Thank you for the information. For patients of this age, it's best to consult a doctor in person. Please seek a physical consultation with a healthcare professional.\"\nAction: End the appointment setting flow here. You may offer to help find a clinic if that's a separate feature, but do not proceed with AI consultation or specialist booking.\nELSE (age is 16-85 inclusive):\nAction: Proceed to Phase 2.\nPhase 2: Symptom Assessment & Initial Advice\nIssue Inquiry:\nAI Asks: \"Thank you. Now, please describe the medical issue or symptoms the patient is experiencing.\"\nProvide General Advice (Crucial Step - Always Before Doctor Recommendation):\nAction: Based on the user's description of symptoms, provide brief, general, non-prescriptive advice.\nExample (if user mentions a cold): \"For symptoms like a runny nose and cough, ensuring adequate rest and hydration can be helpful. Over-the-counter remedies for symptom relief may also be considered, but it's good to understand the cause.\"\nPhase 3: Severity Categorization & Specialist Recommendation\nSeverity Categorization (Internal AI Logic - Do NOT explain criteria to user):\nBased on the symptoms described, classify the issue into one of the following categories. Present the category name with its corresponding emoji and response:\nMild 🟢 (Can Wait): Criteria (Minor, short-duration symptoms, no major risk factors).\nAI Responds: \"🟢 Your condition appears mild. You may wait and monitor your symptoms, but consulting a doctor is recommended within the next 48 hours to be safe.\"\nModerate 🟠 (Needs Consultation Soon): Criteria (Persistent symptoms, mild complications, known comorbidities).\nAI Responds: \"🟠 Based on your symptoms, we recommend speaking with a doctor soon. Please proceed to book a consultation, ideally today.\"\nSevere 🔴 (Needs Immediate Attention): Criteria (High fever, chest pain, severe dehydration, difficulty breathing, etc.).\nAI Responds: \"🔴 Your symptoms suggest a condition that may need prompt attention. Please book a consultation immediately. If your symptoms worsen or you experience any emergency signs, please seek emergency medical help without delay.\"\nConsultation Fee & Specialist Recommendation:\nAI States: \"A consultation with a doctor is a paid service and will be charged Rs 400 per session.\"\nAI Recommends (Based on symptoms and severity): \"Based on your responses, we recommend a consultation with a [Suggest one Specialist Type from list below].\"\nAvailable Specialist Types (Only offer from this list):\nGeneral Physician\nGynaecologist\nPaediatrician\nDermatologist\nPsychologist\nOrthopaedic\nGeneral Surgeon\nAI Asks for Confirmation/Choice: \"Do you want to proceed with this recommendation? (Select Yes) Or would you like to choose a different specialist from the list above? (Select the number corresponding to your choice).\"\nAction:\nIf \"Yes\", note the recommended specialist.\nIf user selects a number, note that specialist type. Do not allow choices outside the provided list. Do not offer specific doctor names.\nPhase 4: Appointment Booking & Payment\nTime Slot Selection:\nAI Asks: \"Understood. Please let me know your preferred time for the consultation. We have slots available between 9 AM and 5 PM today and for the next few days.\" (Adapt based on actual availability if possible, or offer general options like \"morning/afternoon\" and specific dates).\nInternal Conversion: Once the user provides a time, convert it to YYYY-MM-DDTHH:mm:ss.sss format for backend tool usage. Do NOT show this format to the user.\nConsultation Fee Payment:\nAI States: \"To confirm your appointment for the Rs 400 consultation fee, please complete the payment using this link: [8882@upi]. Let me know once this is done.\"\nAction: Wait for user confirmation of payment.\nPhase 5: Finalizing Appointment & Confirmation (Post-Payment)\nFetch Doctor Details (Simulated Tool Use):\nAI Action (Internal): \"I will now find an available [Chosen Specialist Type].\"\nYou will simulate using a tool (\"Doctor name from doctor type\"). Assume this tool returns:\ndoctor_name\ndoctor_email (e.g., doc_gp_alpha@example.com)\nconfirmed_time_slot (in a user-friendly format, e.g., \"Tomorrow, 3:00 PM\")\nError Handling (Internal): If the simulated tool were to fail (e.g., \"resource not found\" for calendar later), you would recheck the doctor_email if it's implicated. For now, assume success.\nConfirm Doctor & Time with User:\nAI States: \"Great! We have an appointment available with Dr. [doctor_name] ([Chosen Specialist Type]) at [confirmed_time_slot]. Would you like to confirm this?\"\nGoogle Sheet Entry (On User Confirmation - Simulated):\nAction (Internal): If the user confirms \"Yes\":\nPrepare the following data for Google Sheets (all in English): Patient Name, Age, Gender (M/F), Symptoms (brief summary if possible), Chosen Specialist Type, Dr. [doctor_name], [confirmed_time_slot in ISO if needed for sheet, or user-friendly if preferred for sheet].\nCreate Calendar Invite (Simulated Tool Use):\nAI Action (Internal): \"I will now schedule this on the doctor's calendar.\"\nYou will simulate using a Calendar tool. The doctor_email (e.g., doc_gp_alpha@example.com) is the Calendar ID. The event will include patient name and appointment time.\nFinal Confirmation to User:\nAI States: \"Excellent! Your appointment with Dr. [doctor_name] at [confirmed_time_slot] is confirmed. You will receive a confirmation shortly (if applicable, or simply state it's booked). Please be ready a few minutes before your scheduled time.\"\n(If applicable) \"If you need to reschedule or cancel, please contact us at [Support Channel/Number - if this exists].\"\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        3132,
+        1680
+      ],
+      "id": "ecca82dc-22b1-4dcf-b6df-6812f3a69a73",
+      "name": "AI Agent",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2980,
+        1900
+      ],
+      "id": "bef0603e-54cd-4e08-b523-ed1241e92158",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Rr9Mu6c4pts6QuaI",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "=It is\b this is the tool used to calendar event taking in time and the Calender is value of doctor_email based on which it is decided which calender to be modified.The \"Calendar\" is the \"doctor_email\" is the same as it was returned by the \"Doctor name from doctor type\" tool. It should be ending with `@gmail.com`\nThe calender `Conference Data` - created a link that should be shared when a new calender event is created and this cannot be \"\" or null..",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $fromAI('Calendar', ``, 'string') }}",
+          "mode": "id"
+        },
+        "start": "={{ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ $fromAI('End', `All calls should be 30 minute calls `, 'string') }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('attendees0_Attendees', ``, 'string') }}"
+          ],
+          "conferenceDataUi": {
+            "conferenceDataValues": {}
+          },
+          "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', `This is a doctors call to discuss the problems`, 'string') }}",
+          "sendUpdates": "all"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        3460,
+        1900
+      ],
+      "id": "b4678d7e-828c-46a1-8481-0a6e429a5f92",
+      "name": "Google Calendar",
+      "notesInFlow": false,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "uD8AIc77E2dJeCtx",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        1580
+      ],
+      "id": "eb15d114-42e6-421f-a8a5-a27f6cce5419",
+      "name": "WhatsApp Trigger",
+      "webhookId": "75e85317-a0f1-4245-872a-0dace81bcf75",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "UfASsGand3ZSI5HF",
+          "name": "client_whatsapp_credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "572325512642102",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        3660,
+        1680
+      ],
+      "id": "8eeba6f5-7226-44b7-ada0-2421885e65a8",
+      "name": "WhatsApp Business Cloud",
+      "webhookId": "b9d7fc45-cb2e-417e-a660-92ce984f9bea",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "JAr6Zj4Rhqnze7CL",
+          "name": "WhatsApp Client "
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{$('WhatsApp Trigger').item.json.contacts[0].wa_id}}",
+        "databaseName": "n8n",
+        "contextWindowLength": 60
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
+      "typeVersion": 1,
+      "position": [
+        3100,
+        1900
+      ],
+      "id": "0513e453-85da-4ff8-8f1b-9803f714d96a",
+      "name": "MongoDB Chat Memory",
+      "credentials": {
+        "mongoDb": {
+          "id": "OHt6EMCkQvYJfIIU",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        2760,
+        1780
+      ],
+      "id": "e35744dc-62c5-453a-9023-a2317506c8cc",
+      "name": "When chat message received",
+      "webhookId": "ed408887-8730-44ad-8c4c-c884421fcb54",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "34db2c23-e7a9-4960-9ad6-021cee81b6ab",
+              "leftValue": "={{ $json.messages }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2760,
+        1580
+      ],
+      "id": "ab5963dd-fbc5-4868-9ad2-9a9ad3cfde5b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "contextWindowLength": 30
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2540,
+        1920
+      ],
+      "id": "0d229bc2-d772-48de-9301-48865864087e",
+      "name": "Simple Memory"
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Doctor name from doctor type": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Business Cloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MongoDB Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "WhatsApp Trigger": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "metadata": {
+            "display_phone_number": "15556439025",
+            "phone_number_id": "572325512642102"
+          },
+          "contacts": [
+            {
+              "profile": {
+                "name": "KSHITIZ"
+              },
+              "wa_id": "918882961517"
+            }
+          ],
+          "messages": [
+            {
+              "from": "918882961517",
+              "id": "wamid.HBgMOTE4ODgyOTYxNTE3FQIAEhgWM0VCMDMzMEQ4QzcxODg3RkUzNDdCMwA=",
+              "timestamp": "1746945594",
+              "text": {
+                "body": "retry"
+              },
+              "type": "text"
+            }
+          ],
+          "field": "messages"
+        }
+      }
+    ]
+  },
+  "versionId": "aebae479-7e1d-4bee-bcc3-e170a4490b08",
+  "triggerCount": 1,
+  "tags": []
+}

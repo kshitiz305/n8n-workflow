@@ -1,0 +1,113 @@
+{
+  "createdAt": "2025-02-08T12:22:40.141Z",
+  "updatedAt": "2025-02-09T06:20:23.050Z",
+  "id": "mXcP3hZ8tVAnipUP",
+  "name": "My workflow",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -60,
+        -60
+      ],
+      "id": "20cf32ad-3a42-4a50-8711-f520dfe9b8f0",
+      "name": "When chat message received",
+      "webhookId": "5b44818f-753e-4a03-8670-0d8fdfbbbdbd"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.0-flash-exp:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        240,
+        140
+      ],
+      "id": "5b0239c2-24c4-4490-af95-28b0d45566b1",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "FFA0fFMM0Ktp2Glf",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        240,
+        -40
+      ],
+      "id": "66c507a2-1fc7-4055-99b8-ba0a020583ab",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        500,
+        200
+      ],
+      "id": "dc02fde3-4417-406b-b823-2b3f1f2846ba",
+      "name": "Wikipedia"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "193f4a6c-6317-4d13-953d-6b203462e1e0",
+  "triggerCount": 0,
+  "tags": []
+}
